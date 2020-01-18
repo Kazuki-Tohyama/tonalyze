@@ -1,0 +1,26 @@
+{
+  "name": "tonalyze",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "zip -r tonalyze.zip ./ -x \"*.zip\" && aws lambda update-function-code --function-name tonalyze --zip-file fileb://tonalyze.zip",
+    "dev": "zip -r tonalyze-dev.zip ./ -x \"*.zip\" && aws lambda update-function-code --function-name tonalyze-dev --zip-file fileb://tonalyze-dev.zip"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tonaljs/mode": "^3.2.3",
+    "@tonaljs/note": "^3.2.5",
+    "@tonaljs/tonal": "^3.2.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-node": "^11.0.0",
+    "serverless-eslint-plugin": "^0.1.4",
+    "tonal": "^2.2.2",
+    "tonal-key": "^2.2.2"
+  }
+}
