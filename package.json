@@ -14,8 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tonaljs/chord": "^3.3.0",
+    "@tonaljs/key": "^3.4.1",
     "@tonaljs/mode": "^3.2.3",
     "@tonaljs/note": "^3.2.5",
+    "@tonaljs/scale": "^3.3.1",
     "@tonaljs/tonal": "^3.2.2",
     "eslint": "^6.8.0",
     "eslint-plugin-node": "^11.0.0",

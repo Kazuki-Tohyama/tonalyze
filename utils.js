@@ -1,4 +1,6 @@
 const Note = require('@tonaljs/note');
+const { minorKey } = require('@tonaljs/key');
+const Key = require('tonal-key');
 
 const utils = {
   build_callback_data: (message) => {
@@ -6,6 +8,10 @@ const utils = {
       fulfillmentText: message,
     };
     return json;
+  },
+  isContainsRootNote: (root) => {
+    const noteNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+    return noteNames.find(el => root.includes(el));
   },
   changeToEn: (name) => {
     if (name === 'メジャー' || name === 'イオニアン') {
@@ -46,24 +52,46 @@ const utils = {
     }
     return name;
   },
-  adjustRootName : (root) => {
-    if (root.indexOf('シャープ') > 0) {
-      return `${root.charAt(0)}#`;
+  reduceRootName: (root) => {
+    const adjustedRoot = root.reduce((acc, cur) => {
+      return `${acc}${cur}`;
+    });
+    return adjustedRoot;
+  },
+  rootNameToJp: (root) => {
+    let adjustedRoot = root;
+    if (adjustedRoot.includes('#')) {
+      return adjustedRoot.replace('#', 'シャープ');
+    } else if (adjustedRoot.includes('b')) {
+      return adjustedRoot.replace('b', 'フラット');
     }
-    if (root.indexOf('フラット') > 0) {
-      return `${root.charAt(0)}b`;
-    }
-    return root;
+    return adjustedRoot;
+  },
+  enharmonizeChords: (chordList) => {
+    const enharmonicableNotes = ['B#', 'E#', 'Fb', 'Cb'];
+    return chordList.map(chord => {
+      const enharmonicNote = enharmonicableNotes.find(el => {return chord.indexOf(el) > 0;});
+      if (enharmonicNote) {
+        return chord.replace(enharmonicNote, Note.enharmonic(enharmonicNote));
+      }
+      return chord;
+    });
   },
   buildTextFromList: (list) => {
+    const enharmonicableNotes = ['B#', 'E#', 'Fb', 'Cb'];
     const listToJp = list.map(elm => {
-      const simplifiedNote = Note.simplify(elm);
-      if (simplifiedNote.indexOf('#') > 0 ) {
-        return simplifiedNote.replace('#', 'シャープ');
-      } else if (simplifiedNote.indexOf('b') > 0) {
-        return simplifiedNote.replace('b', 'フラット');
+      let note = Note.simplify(elm);
+
+      if (enharmonicableNotes.includes(note)) {
+        note = Note.enharmonic(note);
       }
-      return simplifiedNote;
+
+      if (note.includes('#')) {
+        return note.replace('#', 'シャープ');
+      } else if (note.includes('b')) {
+        return note.replace('b', 'フラット');
+      }
+      return note;
     });
     return listToJp.join('、');
   },
@@ -86,6 +114,39 @@ const utils = {
       return chord;
     });
     return listToJp.join('、');
+  },
+  hamonicOrMelodicScale: (scaleroot, scalename) => {
+    const type = scalename.replace(' minor', '');
+    return minorKey(scaleroot)[type].scale;
+  },
+  createDiatonicList: (scaleroot, scalename, numOfNotes) => {
+    if (scalename === 'melodic minor' || scalename === 'harmonic minor') {
+      const scaleList = this.hamonicOrMelodicScale(scaleroot, scalename);
+      const type = scalename.replace(' minor', '');
+      let chordNameList;
+      if (type === 'harmonic') {
+        if (numOfNotes === 'triad') {
+          chordNameList = ["m", "m", "aug", "M", "M", "dim", "dim"];
+        } else if (numOfNotes === 'tetrad') {
+          chordNameList = ["m6", "m7", "aug7", "7", "7", "m7b5", "m7b5"];
+        }
+      } else if (type === 'melodic') {
+        if (numOfNotes === 'triad') {
+          chordNameList = ['m', 'dim', 'aug', 'm', 'M', 'M', 'dim'];
+        } else if (numOfNotes === 'tetrad') {
+          chordNameList = ['mM7', 'm7b5', 'aug7', 'm7', '7', 'M7', 'dim7'];
+        }
+      }
+      return scaleList.map(root => {
+        return `${root}${chordNameList[scaleList.indexOf(root)]}`;
+      });
+    } else {
+      if (numOfNotes === 'triad') {
+        return Key.triads(`${scaleroot} ${scalename}`);
+      } else if (numOfNotes === 'tetrad') {
+        return Key.chords(`${scaleroot} ${scalename}`);
+      }
+    }
   },
 };
 
