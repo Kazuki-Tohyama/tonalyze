@@ -126,15 +126,15 @@ const utils = {
       let chordNameList;
       if (type === 'harmonic') {
         if (numOfNotes === 'triad') {
-          chordNameList = ["m", "m", "aug", "M", "M", "dim", "dim"];
-        } else if (numOfNotes === 'tetrad') {
-          chordNameList = ["m6", "m7", "aug7", "7", "7", "m7b5", "m7b5"];
-        }
-      } else if (type === 'melodic') {
-        if (numOfNotes === 'triad') {
           chordNameList = ['m', 'dim', 'aug', 'm', 'M', 'M', 'dim'];
         } else if (numOfNotes === 'tetrad') {
           chordNameList = ['mM7', 'm7b5', 'aug7', 'm7', '7', 'M7', 'dim7'];
+        }
+      } else if (type === 'melodic') {
+        if (numOfNotes === 'triad') {
+          chordNameList = ["m", "m", "aug", "M", "M", "dim", "dim"];
+        } else if (numOfNotes === 'tetrad') {
+          chordNameList = ["m6", "m7", "aug7", "7", "7", "m7b5", "m7b5"];
         }
       }
       return scaleList.map(root => {
