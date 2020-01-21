@@ -13,7 +13,7 @@ const scaleElements = (parameters, callback) => {
 
       const scalemode = !isHamonicOrMelodicMinor
         ? mode(scalename).intervals.map(interval => transpose(scaleroot, interval))
-        : utils.hamonicOrMelodicScale(scaleroot, scalename);
+        : utils.harmonicOrMelodicScaleList(scaleroot, scalename);
 
       const scaleText = utils.buildTextFromList(scalemode);
 

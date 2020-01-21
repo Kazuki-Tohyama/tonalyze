@@ -115,14 +115,15 @@ const utils = {
     });
     return listToJp.join('、');
   },
-  hamonicOrMelodicScale: (scaleroot, scalename) => {
+  harmonicOrMelodicScaleList: (scaleroot, scalename) => {
     const type = scalename.replace(' minor', '');
     return minorKey(scaleroot)[type].scale;
   },
   createDiatonicList: (scaleroot, scalename, numOfNotes) => {
     if (scalename === 'melodic minor' || scalename === 'harmonic minor') {
-      const scaleList = this.hamonicOrMelodicScale(scaleroot, scalename);
       const type = scalename.replace(' minor', '');
+      const scaleList = minorKey(scaleroot)[type].scale;
+      
       let chordNameList;
       if (type === 'harmonic') {
         if (numOfNotes === 'triad') {
@@ -138,7 +139,8 @@ const utils = {
         }
       }
       return scaleList.map(root => {
-        return `${root}${chordNameList[scaleList.indexOf(root)]}`;
+        const _root = Note.simplify(root);
+        return `${_root}${chordNameList[scaleList.indexOf(root)]}`;
       });
     } else {
       if (numOfNotes === 'triad') {
