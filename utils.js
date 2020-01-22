@@ -3,17 +3,17 @@ const { minorKey } = require('@tonaljs/key');
 const Key = require('tonal-key');
 
 const utils = {
-  build_callback_data: (message) => {
+  build_callback_data(message) {
     const json = {
       fulfillmentText: message,
     };
     return json;
   },
-  isContainsRootNote: (root) => {
+  isContainsRootNote(root) {
     const noteNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     return noteNames.find(el => root.includes(el));
   },
-  changeToEn: (name) => {
+  changeToEn(name) {
     if (name === 'メジャー' || name === 'イオニアン') {
       return 'major';
     }
@@ -52,13 +52,13 @@ const utils = {
     }
     return name;
   },
-  reduceRootName: (root) => {
+  reduceRootName(root) {
     const adjustedRoot = root.reduce((acc, cur) => {
       return `${acc}${cur}`;
     });
     return adjustedRoot;
   },
-  rootNameToJp: (root) => {
+  rootNameToJp(root) {
     let adjustedRoot = root;
     if (adjustedRoot.includes('#')) {
       return adjustedRoot.replace('#', 'シャープ');
@@ -67,7 +67,7 @@ const utils = {
     }
     return adjustedRoot;
   },
-  enharmonizeChords: (chordList) => {
+  enharmonizeChords(chordList) {
     const enharmonicableNotes = ['B#', 'E#', 'Fb', 'Cb'];
     return chordList.map(chord => {
       const enharmonicNote = enharmonicableNotes.find(el => {return chord.indexOf(el) > 0;});
@@ -77,7 +77,7 @@ const utils = {
       return chord;
     });
   },
-  buildTextFromList: (list) => {
+  buildTextFromList(list) {
     const enharmonicableNotes = ['B#', 'E#', 'Fb', 'Cb'];
     const listToJp = list.map(elm => {
       let note = Note.simplify(elm);
@@ -95,7 +95,7 @@ const utils = {
     });
     return listToJp.join('、');
   },
-  buildChordTextFromList: (list) => {
+  buildChordTextFromList(list) {
     const listToJp = list.map(elm => {
       let chord = elm;
       chord = chord.replace('dim', 'ディミニッシュ');
@@ -115,15 +115,15 @@ const utils = {
     });
     return listToJp.join('、');
   },
-  harmonicOrMelodicScaleList: (scaleroot, scalename) => {
+  harmonicOrMelodicScaleList(scaleroot, scalename) {
     const type = scalename.replace(' minor', '');
     return minorKey(scaleroot)[type].scale;
   },
-  createDiatonicList: (scaleroot, scalename, numOfNotes) => {
+  createDiatonicList(scaleroot, scalename, numOfNotes) {
     if (scalename === 'melodic minor' || scalename === 'harmonic minor') {
       const type = scalename.replace(' minor', '');
-      const scaleList = minorKey(scaleroot)[type].scale;
-      
+      const scaleList = this.harmonicOrMelodicScaleList(scaleroot, scalename);
+
       let chordNameList;
       if (type === 'harmonic') {
         if (numOfNotes === 'triad') {
