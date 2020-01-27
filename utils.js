@@ -95,6 +95,23 @@ const utils = {
     });
     return listToJp.join('、');
   },
+  buildTextFromNote(text) {
+    let buildText = text;
+    buildText = buildText.replace('dim', 'ディミニッシュ');
+    buildText = buildText.replace('aug', 'オーギュメント');
+    buildText = buildText.replace('b', 'フラット');
+    buildText = buildText.replace('#', 'シャープ');
+    buildText = buildText.replace('Maj', 'メジャー');
+    buildText = buildText.replace('M', 'メジャー');
+    buildText = buildText.replace('m', 'マイナー');
+    buildText = buildText.replace('5', 'ファイブ');
+    buildText = buildText.replace('6', 'シックスス');
+    buildText = buildText.replace('7', 'セブンス');
+    buildText = buildText.replace('9', 'ナインス');
+    buildText = buildText.replace('11', 'イレブンス');
+    buildText = buildText.replace('13', 'サーティーンス');
+    return buildText;
+  },
   buildChordTextFromList(list) {
     const listToJp = list.map(elm => {
       let chord = elm;

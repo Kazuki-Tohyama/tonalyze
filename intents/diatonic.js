@@ -12,9 +12,18 @@ const diatonic = (parameters, callback) => {
         const diatonicChords = utils.createDiatonicList(scaleroot, scalename, numOfNotes);
 
         if (diatonicChords) {
-          const diatonicText = utils.buildChordTextFromList(utils.enharmonizeChords(diatonicChords));
-          console.log(`${scaleroot}${parameters.scalename}のダイアトニックは、${diatonicText}です。`);
-          callback(null, utils.build_callback_data(`${utils.rootNameToJp(scaleroot)}${parameters.scalename}のダイアトニックは、${diatonicText}です。`));
+          const chordData = utils.enharmonizeChords(diatonicChords);
+          if (parameters.number) {
+            const diatonicFromNum = chordData[parameters.number - 1 % 8];
+            const text = utils.buildTextFromNote(diatonicFromNum);
+            console.log(`${scaleroot}${parameters.scalename}の${parameters.number}個目のダイアトニックは、${text}です。`);
+            callback(null, utils.build_callback_data(`${scaleroot}${parameters.scalename}の${parameters.number}個目のダイアトニックは、${text}です。`));
+          } else {
+            const text = utils.buildChordTextFromList(utils.enharmonizeChords(diatonicChords));
+            const numOfNotesText = numOfNotes === 'triad' ? 'ダイアトニック' : '4和音ダイアトニック';
+            console.log(`${scaleroot}${parameters.scalename}の${numOfNotesText}は、${text}です。`);
+            callback(null, utils.build_callback_data(`${utils.rootNameToJp(scaleroot)}${parameters.scalename}の${numOfNotesText}は、${text}です。`));
+          }
         } else {
           throw new Error('diatonic chords is empty.');
         }

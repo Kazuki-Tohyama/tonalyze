@@ -15,10 +15,16 @@ const scaleElements = (parameters, callback) => {
         ? mode(scalename).intervals.map(interval => transpose(scaleroot, interval))
         : utils.harmonicOrMelodicScaleList(scaleroot, scalename);
 
-      const scaleText = utils.buildTextFromList(scalemode);
-
-      console.log(`${scaleroot}${parameters.scalename}は、${scaleText}です。`);
-      callback(null, utils.build_callback_data(`${utils.rootNameToJp(scaleroot)}${parameters.scalename}は、${scaleText}です。`));
+      if (parameters.number) {
+        const noteFromNum = scalemode[parameters.number - 1 % 8];
+        const text = utils.buildTextFromNote(noteFromNum);
+        console.log(`${scaleroot}${parameters.scalename}の${parameters.number}個目の音は、${text}です。`);
+        callback(null, utils.build_callback_data(`${scaleroot}${parameters.scalename}の${parameters.number}個目の音は、${text}です。`));
+      } else {
+        const scaleText = utils.buildTextFromList(scalemode);
+        console.log(`${scaleroot}${parameters.scalename}は、${scaleText}です。`);
+        callback(null, utils.build_callback_data(`${utils.rootNameToJp(scaleroot)}${parameters.scalename}は、${scaleText}です。`));
+      }
     } else {
       throw new Error('scaleroot or scalename parameter is empty.');
     }
