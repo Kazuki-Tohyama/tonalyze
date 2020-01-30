@@ -1,6 +1,5 @@
 const Note = require('@tonaljs/note');
 const { minorKey } = require('@tonaljs/key');
-const Key = require('tonal-key');
 
 const utils = {
   build_callback_data(message) {
@@ -112,7 +111,7 @@ const utils = {
     buildText = buildText.replace('13', 'サーティーンス');
     return buildText;
   },
-  buildChordTextFromList(list) {
+  buildChordSpeechTextFromList(list) {
     const listToJp = list.map(elm => {
       let chord = elm;
       chord = chord.replace('dim', 'ディミニッシュ');
@@ -135,37 +134,6 @@ const utils = {
   harmonicOrMelodicScaleList(scaleroot, scalename) {
     const type = scalename.replace(' minor', '');
     return minorKey(scaleroot)[type].scale;
-  },
-  createDiatonicList(scaleroot, scalename, numOfNotes) {
-    if (scalename === 'melodic minor' || scalename === 'harmonic minor') {
-      const type = scalename.replace(' minor', '');
-      const scaleList = this.harmonicOrMelodicScaleList(scaleroot, scalename);
-
-      let chordNameList;
-      if (type === 'harmonic') {
-        if (numOfNotes === 'triad') {
-          chordNameList = ['m', 'dim', 'aug', 'm', 'M', 'M', 'dim'];
-        } else if (numOfNotes === 'tetrad') {
-          chordNameList = ['mM7', 'm7b5', 'aug7', 'm7', '7', 'M7', 'dim7'];
-        }
-      } else if (type === 'melodic') {
-        if (numOfNotes === 'triad') {
-          chordNameList = ["m", "m", "aug", "M", "M", "dim", "dim"];
-        } else if (numOfNotes === 'tetrad') {
-          chordNameList = ["m6", "m7", "aug7", "7", "7", "m7b5", "m7b5"];
-        }
-      }
-      return scaleList.map(root => {
-        const _root = Note.simplify(root);
-        return `${_root}${chordNameList[scaleList.indexOf(root)]}`;
-      });
-    } else {
-      if (numOfNotes === 'triad') {
-        return Key.triads(`${scaleroot} ${scalename}`);
-      } else if (numOfNotes === 'tetrad') {
-        return Key.chords(`${scaleroot} ${scalename}`);
-      }
-    }
   },
 };
 

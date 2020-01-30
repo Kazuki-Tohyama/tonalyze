@@ -7,10 +7,12 @@ exports.handler = async (event, context, callback) => {
   console.log(event.queryResult);
 
   switch(intent.displayName) {
-    case "scaleElements":
+    case 'scale':
+    case 'scale-repeat':
       ScaleElementsIntent(parameters, callback);
       break;
-    case "diatonic":
+    case 'diatonic':
+    case 'diatonic-repeat':
       DiatonicIntent(parameters, callback);
       break;
     default:
