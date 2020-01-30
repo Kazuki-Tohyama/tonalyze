@@ -1,5 +1,4 @@
 const Note = require('@tonaljs/note');
-const { minorKey } = require('@tonaljs/key');
 
 const utils = {
   build_callback_data(message) {
@@ -76,24 +75,6 @@ const utils = {
       return chord;
     });
   },
-  buildTextFromList(list) {
-    const enharmonicableNotes = ['B#', 'E#', 'Fb', 'Cb'];
-    const listToJp = list.map(elm => {
-      let note = Note.simplify(elm);
-
-      if (enharmonicableNotes.includes(note)) {
-        note = Note.enharmonic(note);
-      }
-
-      if (note.includes('#')) {
-        return note.replace('#', 'シャープ');
-      } else if (note.includes('b')) {
-        return note.replace('b', 'フラット');
-      }
-      return note;
-    });
-    return listToJp.join('、');
-  },
   buildTextFromNote(text) {
     let buildText = text;
     buildText = buildText.replace('dim', 'ディミニッシュ');
@@ -130,10 +111,6 @@ const utils = {
       return chord;
     });
     return listToJp.join('、');
-  },
-  harmonicOrMelodicScaleList(scaleroot, scalename) {
-    const type = scalename.replace(' minor', '');
-    return minorKey(scaleroot)[type].scale;
   },
 };
 
