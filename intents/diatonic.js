@@ -29,7 +29,7 @@ const diatonic = (parameters, callback) => {
                   "items": [
                     {
                       "simpleResponse": {
-                        "textToSpeech": `${scaleroot}${parameters.scalename}の3和音のダイアトニックは、${triadSpeechText}です。\n${scaleroot}${parameters.scalename}の4和音のダイアトニックは、${tetradSpeechText}です。\n\n別のスケールを調べたい時は「ダイアトニック」もしくは音名を話してください。スケールの構成音を調べたい時は「スケール」と話しかけて下さい。`,
+                        "textToSpeech": `${utils.buildTextFromNote(scaleroot)}${parameters.scalename}の3和音のダイアトニックは、${triadSpeechText}です。\n${scaleroot}${parameters.scalename}の4和音のダイアトニックは、${tetradSpeechText}です。\n\n別のスケールを調べたい時は「ダイアトニック」もしくは音名を話してください。スケールの構成音を調べたい時は「スケール」と話しかけて下さい。`,
                         "displayText": `${scaleroot}${parameters.scalename}の3和音のダイアトニックは、${triadDisplayText}です。\n${scaleroot}${parameters.scalename}の4和音のダイアトニックは、${tetradDisplayText}です。\n\n別のスケールを調べたい時は「ダイアトニック」もしくは音名を話してください。スケールの構成音を調べたい時は「スケール」と話しかけて下さい。`,
                       }
                     }

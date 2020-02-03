@@ -25,7 +25,7 @@ const scaleElements = (parameters, callback) => {
                 "items": [
                   {
                     "simpleResponse": {
-                      "textToSpeech": `${scaleroot}${parameters.scalename}の構成音は、${scaleSpeechText}です。\n\n別のスケールを調べたい時は「スケール」もしくは音名を話してください。ダイアトニックを調べたい時は「ダイアトニック」と話しかけて下さい。`,
+                      "textToSpeech": `${utils.buildTextFromNote(scaleroot)}${parameters.scalename}の構成音は、${scaleSpeechText}です。\n\n別のスケールを調べたい時は「スケール」もしくは音名を話してください。ダイアトニックを調べたい時は「ダイアトニック」と話しかけて下さい。`,
                       "displayText": `${scaleroot}${parameters.scalename}の構成音は、${scaleDisplayText}です。\n\n別のスケールを調べたい時は「スケール」もしくは音名を話してください。ダイアトニックを調べたい時は「ダイアトニック」と話しかけて下さい。`,
                     }
                   }
