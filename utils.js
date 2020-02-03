@@ -52,6 +52,9 @@ const utils = {
   },
   reduceRootName(root) {
     const adjustedRoot = root.reduce((acc, cur) => {
+			if (cur === '♭') {
+				cur = 'b';
+			}
       return `${acc}${cur}`;
     });
     return adjustedRoot;
